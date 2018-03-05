@@ -1,36 +1,14 @@
-const {MongoClient, ObjectId} = require('mongodb');
-var url = "mongodb://localhost:27017/";
+const {ObjectId} = require('mongodb');
+const {mongoose} = require('../server/db/mongoose');
+const {Todo} = require('../server/models/todo');
+const {User} = require('../server/models/user');
 
-MongoClient.connect(url, (err,db) => {
-	if(err){
-		console.log("Unable to connect to mongodb server");
-	}
-	console.log("Connected to mongodb server");
+var id = "3a9c2f319c17400c3c2e2f6b";
 
-  var db =  db.db("TodoApp");
-  // db.collection('Todos').findOneAndUpdate({
-  // 	text: "example"
-  // },{
-  // 	$set:{
-  // 		completed: true
-  // 	}
-  // },{
-  // 	returnOriginal: false
-  // }).then((result) => {
-  // 	console.log(result);
-  // });
+if(!ObjectId.isValid(id)){
+  console.log('Id not valid');
+}
 
-    db.collection('Users').findOneAndUpdate({
-	  	_id: new ObjectId("5a9a9ee21408f512fcbd0f7e")
-	  },{
-	  	$inc:{
-	  		age: 2
-	  	}
-	  },{
-	  	returnOriginal: false
-	  }).then((result) => {
-	  	console.log(result);
-	  });
-
-
+Todo.remove({}).then((res) => {
+	console.log(res);
 })
