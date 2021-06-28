@@ -8,6 +8,7 @@ FEATURE_BRANCH_PREFIX="sof"
 PATCH_BRANCH_PREFIX="sop"
 APPCENTER_OWNER_NAME="madhur-switchedon"
 ANDROID_APP_NAME="switchedOn-1"
+IOS_APP_NAME="switchedOn"
 APPCENTER_API_KEY="31c1ef69e19f089e85cbefc0b61af2eef35c3830"
 
 # https://openapi.appcenter.ms/#/build/builds_create
@@ -51,21 +52,14 @@ if [[ $branch_name = $DEVELOP_BRANCH ]]; then
    fi
 
    #commit and push
-   echo "${branch_name}"
-   git add .
-   git commit -am "Version changed to a"
-   git push origin "${branch_name}"
-   echo "done"
-else
-   # response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${ANDROID_NAME}/branches/develop/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
-   response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${ANDROID_APP_NAME}/branches/${branch_name}/builds" -H  "accept: application/json" -H  "X-API-Token: 31c1ef69e19f089e85cbefc0b61af2eef35c3830" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
-   echo "${response}"
-fi
+   # echo "${branch_name}"
+   # git add .
+   # git commit -am "Version changed to a"
+   # git push origin "${branch_name}"
+   # echo "done"
+fi   
 
-# if [[ $branch_name = "dummy-branch" ]]; then
-#    echo "${branch_name}"
-#    git add .
-#    git commit -am "Version changed to a"
-#    git push origin "${branch_name}"
-#    echo "done"
-# fi   
+ 
+#Create a android build in appcenter
+response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${IOS_APP_NAME}/branches/${branch_name}/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
+echo "${response}"
