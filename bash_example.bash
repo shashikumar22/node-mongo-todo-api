@@ -2,14 +2,30 @@
 #!/bin/bash
 exec < /dev/tty
 
+DEVELOP_BRANCH='develop'
+MAJOR_BRANCH_PREFIX="som"
+FEATURE_BRANCH_PREFIX="sof"
+PATCH_BRANCH_PREFIX="sop"
+APPCENTER_OWNER_NAME="madhur-switchedon"
+ANDROID_APP_NAME="switchedOn-1"
+APPCENTER_API_KEY="31c1ef69e19f089e85cbefc0b61af2eef35c3830"
+
+# https://openapi.appcenter.ms/#/build/builds_create
+
 # Get the current branch name
-branch_name="dummy-branch"
+# branch_name="dummy-branch"
+branch_name="develop"
 # Get the current branch name
 # branch_name=$(git branch | grep "*" | sed "s/\* //")
 
 # Get the name of the branch that was just merged
 # reflog_message=$(git reflog -1)
 # merged_branch_name=$(echo $reflog_message | cut -d" " -f 4 | sed "s/://")
+
+# last_commit_sha=$(git rev-parse HEAD)
+last_commit_sha="8f7ffa878a812e7cb29774c330c9b5bcdd96b1b1"
+
+echo "${last_commit_sha}"
 
 # Set space as the delimiter
 IFS='-'
@@ -22,18 +38,34 @@ branch_type="${branch_name_arr[0]}"
 echo "${branch_type}"
 
 # if the merged branch was master - don't do anything
-if [[ $branch_type = "soma" ]]; then
-   echo "major"
-elif [[ $branch_type = "somi" ]]; then
-   echo "minor"  
-elif [[ $branch_type = "sopa" ]]; then
-   echo "patch"     
-fi
+if [[ $branch_name = $DEVELOP_BRANCH ]]; then
+   #Increment the version
+   if [[ $branch_type = $MAJOR_BRANCH_PREFIX ]]; then
+      echo "major"
+   elif [[ $branch_type = $FEATURE_BRANCH_PREFIX ]]; then
+      echo "minor"  
+   elif [[ $branch_type = $PATCH_BRANCH_PREFIX ]]; then
+      echo "patch"
+   else
+      echo "here nothing"     
+   fi
 
-if [[ $branch_name = "dummy-branch" ]]; then
+   #commit and push
    echo "${branch_name}"
    git add .
    git commit -am "Version changed to a"
    git push origin "${branch_name}"
    echo "done"
-fi   
+else
+   # response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${ANDROID_NAME}/branches/develop/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
+   response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${ANDROID_APP_NAME}/branches/${branch_name}/builds" -H  "accept: application/json" -H  "X-API-Token: 31c1ef69e19f089e85cbefc0b61af2eef35c3830" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
+   echo "${response}"
+fi
+
+# if [[ $branch_name = "dummy-branch" ]]; then
+#    echo "${branch_name}"
+#    git add .
+#    git commit -am "Version changed to a"
+#    git push origin "${branch_name}"
+#    echo "done"
+# fi   
