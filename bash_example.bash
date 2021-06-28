@@ -3,7 +3,7 @@
 exec < /dev/tty
 
 # Get the current branch name
-branch_name="soma-test"
+branch_name="dummy-branch"
 # Get the current branch name
 # branch_name=$(git branch | grep "*" | sed "s/\* //")
 
@@ -30,7 +30,7 @@ elif [[ $branch_type = "sopa" ]]; then
    echo "patch"     
 fi
 
-if [[ $branch_name = "soma-test" ]]; then
+if [[ $branch_name = "dummy-branch" ]]; then
    echo "${branch_name}"
    git add .
    git commit -am "Version changed to a"
