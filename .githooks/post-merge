@@ -60,9 +60,10 @@ if [[ $branch_name = $DEVELOP_BRANCH ]]; then
    git commit -am "Version changed to 23"
    git push origin "${branch_name}"
    echo "done"
+
+   #Create a android build in appcenter
+    response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${IOS_APP_NAME}/branches/develop/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
+    echo "${response}"
 fi   
 
  
-#Create a android build in appcenter
-response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${IOS_APP_NAME}/branches/develop/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
-echo "${response}"
