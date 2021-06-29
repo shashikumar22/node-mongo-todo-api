@@ -2,7 +2,7 @@
 #!/bin/bash
 exec < /dev/tty
 
-# 1
+# 3
 
 DEVELOP_BRANCH='sof-task'
 MAJOR_BRANCH_PREFIX="som"
