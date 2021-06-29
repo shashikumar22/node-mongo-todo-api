@@ -2,6 +2,8 @@
 #!/bin/bash
 exec < /dev/tty
 
+# 1
+
 DEVELOP_BRANCH='sof-task'
 MAJOR_BRANCH_PREFIX="som"
 FEATURE_BRANCH_PREFIX="sof"
@@ -54,7 +56,7 @@ if [[ $branch_name = $DEVELOP_BRANCH ]]; then
    # commit and push
    echo "${branch_name}"
    git add .
-   git commit -am "Version changed to 1"
+   git commit -am "Version changed to 23"
    git push origin "${branch_name}"
    echo "done"
 fi   
