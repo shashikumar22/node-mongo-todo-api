@@ -2,6 +2,8 @@
 #!/bin/bash
 exec < /dev/tty
 
+# 1
+
 DEVELOP_BRANCH='sof-task'
 MAJOR_BRANCH_PREFIX="som"
 FEATURE_BRANCH_PREFIX="sof"
