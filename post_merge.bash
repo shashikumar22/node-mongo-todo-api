@@ -2,7 +2,7 @@
 #!/bin/bash
 exec < /dev/tty
 
-DEVELOP_BRANCH='develop'
+DEVELOP_BRANCH='sof-task'
 MAJOR_BRANCH_PREFIX="som"
 FEATURE_BRANCH_PREFIX="sof"
 PATCH_BRANCH_PREFIX="sop"
@@ -15,9 +15,9 @@ APPCENTER_API_KEY="31c1ef69e19f089e85cbefc0b61af2eef35c3830"
 
 # Get the current branch name
 # branch_name="dummy-branch"
-branch_name="develop"
+# branch_name="develop"
 # Get the current branch name
-# branch_name=$(git branch | grep "*" | sed "s/\* //")
+branch_name=$(git branch | grep "*" | sed "s/\* //")
 
 # Get the name of the branch that was just merged
 # reflog_message=$(git reflog -1)
@@ -51,15 +51,15 @@ if [[ $branch_name = $DEVELOP_BRANCH ]]; then
       echo "here nothing"     
    fi
 
-   #commit and push
-   # echo "${branch_name}"
-   # git add .
-   # git commit -am "Version changed to a"
-   # git push origin "${branch_name}"
-   # echo "done"
+   # commit and push
+   echo "${branch_name}"
+   git add .
+   git commit -am "Version changed to 1"
+   git push origin "${branch_name}"
+   echo "done"
 fi   
 
  
 #Create a android build in appcenter
-response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${IOS_APP_NAME}/branches/${branch_name}/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
+response=$(curl -X POST "https://api.appcenter.ms/v0.1/apps/${APPCENTER_OWNER_NAME}/${IOS_APP_NAME}/branches/develop/builds" -H  "accept: application/json" -H  "X-API-Token: ${APPCENTER_API_KEY}" -H  "Content-Type: application/json" -d "{  \"sourceVersion\": \"${last_commit_sha}\",  \"debug\":false}")
 echo "${response}"
